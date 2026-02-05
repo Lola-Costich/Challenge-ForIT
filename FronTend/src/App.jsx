@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import TaskList from "./TaskList";
 import TaskForm from "./TaskForm";
 
@@ -27,9 +27,7 @@ function App() {
 
   // Eliminar tarea
   const deleteTask = (id) => {
-    fetch(`http://localhost:3001/api/tasks/${id}`, {
-      method: "DELETE",
-    })
+    fetch(`http://localhost:3001/api/tasks/${id}`, { method: "DELETE" })
       .then(res => res.json())
       .then(() => setTasks(tasks.filter(task => task.id !== id)))
       .catch(err => console.error("Error al eliminar tarea:", err));
@@ -52,11 +50,33 @@ function App() {
       .catch(err => console.error("Error al editar tarea:", err));
   };
 
+  // Marcar tarea completada
+  const toggleComplete = (id) => {
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+
+    fetch(`http://localhost:3001/api/tasks/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: task.title, completed: !task.completed }),
+    })
+      .then(res => res.json())
+      .then(updatedTask => {
+        setTasks(tasks.map(t => (t.id === id ? updatedTask : t)));
+      })
+      .catch(err => console.error("Error al actualizar tarea:", err));
+  };
+
   return (
     <div>
-      <h1>Mi Lista de Tareas</h1>
+      <h1>Mis Tareas Diarias</h1>
       <TaskForm addTask={addTask} />
-      <TaskList tasks={tasks} deleteTask={deleteTask} editTask={editTask} />
+      <TaskList
+        tasks={tasks}
+        deleteTask={deleteTask}
+        editTask={editTask}
+        toggleComplete={toggleComplete}
+      />
     </div>
   );
 }

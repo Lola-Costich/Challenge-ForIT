@@ -1,6 +1,4 @@
-import React from "react";
-
-const TaskList = ({ tasks, deleteTask, editTask }) => {
+const TaskList = ({ tasks, deleteTask, editTask, toggleComplete }) => {
   return (
     <div>
       <h2>Lista de Tareas</h2>
@@ -9,20 +7,15 @@ const TaskList = ({ tasks, deleteTask, editTask }) => {
       ) : (
         <ul>
           {tasks.map((task) => (
-            <li key={task.id}>
-              {task.title} {task.completed ? "(Completada)" : ""}
-              <button
-                style={{ marginLeft: "10px" }}
-                onClick={() => deleteTask(task.id)}
-              >
-                Eliminar
-              </button>
-              <button
-                style={{ marginLeft: "5px" }}
-                onClick={() => editTask(task.id)}
-              >
-                Editar
-              </button>
+            <li key={task.id} className={task.completed ? "completed" : ""}>
+              {task.title}
+              <div>
+                <button onClick={() => deleteTask(task.id)}>Eliminar</button>
+                <button onClick={() => editTask(task.id)}>Editar</button>
+                <button onClick={() => toggleComplete(task.id)}>
+                  {task.completed ? "Desmarcar" : "Completar"}
+                </button>
+              </div>
             </li>
           ))}
         </ul>
@@ -32,4 +25,3 @@ const TaskList = ({ tasks, deleteTask, editTask }) => {
 };
 
 export default TaskList;
-
