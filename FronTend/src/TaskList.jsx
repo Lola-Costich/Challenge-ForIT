@@ -1,6 +1,6 @@
 import React from "react";
 
-const TaskList = ({ tasks }) => {
+const TaskList = ({ tasks, deleteTask, editTask }) => {
   return (
     <div>
       <h2>Lista de Tareas</h2>
@@ -8,9 +8,21 @@ const TaskList = ({ tasks }) => {
         <p>No hay tareas.</p>
       ) : (
         <ul>
-          {tasks.map(task => (
+          {tasks.map((task) => (
             <li key={task.id}>
               {task.title} {task.completed ? "(Completada)" : ""}
+              <button
+                style={{ marginLeft: "10px" }}
+                onClick={() => deleteTask(task.id)}
+              >
+                Eliminar
+              </button>
+              <button
+                style={{ marginLeft: "5px" }}
+                onClick={() => editTask(task.id)}
+              >
+                Editar
+              </button>
             </li>
           ))}
         </ul>
@@ -20,3 +32,4 @@ const TaskList = ({ tasks }) => {
 };
 
 export default TaskList;
+
