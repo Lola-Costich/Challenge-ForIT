@@ -3,7 +3,7 @@ const TaskList = ({ tasks, deleteTask, editTask, toggleComplete }) => {
     <div>
       <h2>Lista de Tareas</h2>
       {tasks.length === 0 ? (
-        <p>No hay tareas.</p>
+        <p>No hay tareas,Agrega Tareas!</p>
       ) : (
         <ul>
           {tasks.map((task) => (
